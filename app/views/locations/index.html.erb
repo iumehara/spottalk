@@ -1,0 +1,88 @@
+<p id="demo">Click the button to get your coordinates:</p>
+
+<script>
+$(document).on('click', '.get_geo_coords', function(e){
+  e.preventDefault();
+  if (navigator.geolocation)
+    {
+      navigator.geolocation.getCurrentPosition(
+        function (position) {
+          var lat_coord = position.coords.latitude;
+          var long_coord = position.coords.longitude;
+          $('.lat_field').val(lat_coord);
+          $('.long_field').val(long_coord);
+        }
+      );
+    }
+  else
+    {
+      var x=document.getElementById("demo");
+      x.innerHTML="Geolocation is not supported by this browser.";
+    }
+});
+</script>
+
+<div class="panel-group" id="accordion">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <a class="get_geo_coords" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+          Where are you?
+        </a>
+      </h4>
+    </div>
+    <div id="collapseOne" class="panel-collapse collapse">
+      <div class="panel-body">
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Address</th>
+      <th>City</th>
+      <th>State</th>
+      <th>Zip</th>
+      <th>Lat Range</th>
+      <th>Long Range</th>
+      <th>Edit</th>
+      <th>Destroy</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @locations.each do |location| %>
+      <tr>
+        <td>
+          <%= form_for @user do |f| %>
+            <%= f.hidden_field :name, value: "MSG-Dave" %>
+            <%= f.hidden_field :location_id, value: location.id %>
+            <%= f.hidden_field :lat, class: "lat_field" %>
+            <%= f.hidden_field :long, class: "long_field" %>
+            <%= f.submit location.name, class: "create_user", data: { confirm: 'Are you sure?'} %>
+          <% end %>
+        </td>
+        <td><%= location.description %></td>
+        <td><%= location.address %></td>
+        <td><%= location.city %></td>
+        <td><%= location.state %></td>
+        <td><%= location.zip %></td>
+        <td><%= "#{location.lat_min} - #{location.lat_max}" %></td>
+        <td><%= "#{location.long_min} - #{location.long_max}" %></td>
+        <td><%= link_to 'Edit', edit_location_path(location) %></td>
+        <td><%= link_to 'Destroy', location, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<br>
+
+<%= link_to 'New Location', new_location_path %>
