@@ -1,54 +1,10 @@
-<p id="notice"><%= notice %></p>
+<div style="padding: 100px;">
+<h1><%= @location.name %> is saying...</h1>
 
-<p>
-  <strong>Name:</strong>
-  <%= @location.name %>
-</p>
-
-<p>
-  <strong>Description:</strong>
-  <%= @location.description %>
-</p>
-
-<p>
-  <strong>Lat Range:</strong>
-  <%= "#{@location.lat_min} - #{@location.lat_max}" %>
-</p>
-
-<p>
-  <strong>Lat Range:</strong>
-  <%= "#{@location.long_min} - #{@location.long_max}" %>
-</p>
-
-<%= link_to 'Edit', edit_location_path(@location) %> |
-<%= link_to 'Back', locations_path %>
-
-<h1>Listing posts</h1>
-
-<table>
-  <thead>
-    <tr>
-      <th>Content</th>
-      <th>User</th>
-      <th></th>
-      <th></th>
-      <th></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @posts.each do |post| %>
-      <tr>
-        <td><%= post.content %></td>
-        <td><%= post.user_id %></td>
-        <td><%= link_to 'Show', post %></td>
-        <td><%= link_to 'Edit', edit_post_path(post) %></td>
-        <td><%= link_to 'Destroy', post, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+<%= render @location.posts %>
 
 <br>
-
 <%= render 'posts/form' %>
+<br>
+<%= link_to "Logout :(", current_user, method: :delete, data: { confirm: "you sure?"}, class: "btn btn-danger" %>
+</div>

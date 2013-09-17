@@ -1,5 +1,3 @@
-<p id="demo">Click the button to get your coordinates:</p>
-
 <script>
 $(document).on('click', '.get_geo_coords', function(e){
   e.preventDefault();
@@ -25,14 +23,14 @@ $(document).on('click', '.get_geo_coords', function(e){
 <div class="panel-group" id="accordion">
   <div class="panel panel-default">
     <div class="panel-heading">
-      <h4 class="panel-title">
-        <a class="get_geo_coords" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
-          Where are you?
-        </a>
+      <h4 class="panel-title" style="text-align:center; margin-top: 100px;">
+        <a class="get_geo_coords btn btn-primary" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" style="color:white;">
+          Click Here
+        </a> to find a group near you!
       </h4>
     </div>
     <div id="collapseOne" class="panel-collapse collapse">
-      <div class="panel-body">
+      <div class="panel-body" style="border:1px solid black; border-radius:5px; width:500px; margin:0 auto;">
 <table>
   <thead>
     <tr>
@@ -42,10 +40,6 @@ $(document).on('click', '.get_geo_coords', function(e){
       <th>City</th>
       <th>State</th>
       <th>Zip</th>
-      <th>Lat Range</th>
-      <th>Long Range</th>
-      <th>Edit</th>
-      <th>Destroy</th>
     </tr>
   </thead>
 
@@ -58,7 +52,7 @@ $(document).on('click', '.get_geo_coords', function(e){
             <%= f.hidden_field :location_id, value: location.id %>
             <%= f.hidden_field :lat, class: "lat_field" %>
             <%= f.hidden_field :long, class: "long_field" %>
-            <%= f.submit location.name, class: "create_user", data: { confirm: 'Are you sure?'} %>
+            <%= f.submit location.name, class: "create_user btn btn-success", data: { confirm: 'Are you sure?'} %>
           <% end %>
         </td>
         <td><%= location.description %></td>
@@ -66,10 +60,6 @@ $(document).on('click', '.get_geo_coords', function(e){
         <td><%= location.city %></td>
         <td><%= location.state %></td>
         <td><%= location.zip %></td>
-        <td><%= "#{location.lat_min} - #{location.lat_max}" %></td>
-        <td><%= "#{location.long_min} - #{location.long_max}" %></td>
-        <td><%= link_to 'Edit', edit_location_path(location) %></td>
-        <td><%= link_to 'Destroy', location, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>
@@ -84,5 +74,3 @@ $(document).on('click', '.get_geo_coords', function(e){
 
 
 <br>
-
-<%= link_to 'New Location', new_location_path %>

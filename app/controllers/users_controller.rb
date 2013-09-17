@@ -31,14 +31,13 @@ class UsersController < ApplicationController
           sign_in @user
           @location = @user.location
           format.html { redirect_to @location, notice: "You have checked in to #{@location.name} as #{@user.name}" }
-          format.json { render action: 'show', status: :created, location: @user }
+          flash[:success] = "Welcome to #{@user.location.name}! Join the party!"
         else
           format.html { redirect_to locations_path }
-          format.json { render json: @user.errors, status: :unprocessable_entity }
         end
       else
         format.html { redirect_to locations_path }
-        format.json { render json: @user.errors, notice: "You don't seem to be at this location!" }
+        flash[:alert] = "You're not at the venue! Try checking in after you get here!"
          puts "#{@user.lat > @user.location.lat_min}"
          puts "#{@user.lat < @user.location.lat_max}"
          puts "#{@user.long > @user.location.lat_min}"
@@ -67,7 +66,7 @@ class UsersController < ApplicationController
   def destroy
     @user.destroy
     respond_to do |format|
-      format.html { redirect_to users_url }
+      format.html { redirect_to root_path }
       format.json { head :no_content }
     end
   end
