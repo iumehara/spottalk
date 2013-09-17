@@ -26,23 +26,21 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
     respond_to do |format|
-      if correct_location?(@user)    
+      if @user.lat.present? && correct_location?(@user)    
         if @user.save
           sign_in @user
           @location = @user.location
-          format.html { redirect_to @location, notice: "You have checked in to #{@location.name} as #{@user.name}" }
+          format.html { redirect_to @location }
           flash[:success] = "Welcome to #{@user.location.name}! Join the party!"
         else
           format.html { redirect_to locations_path }
         end
+      elsif @user.lat.nil?
+        flash[:alert] = "We couldn't get your location info!"
+        format.html { render 'public/no_location.html.erb'} 
       else
         format.html { redirect_to locations_path }
         flash[:alert] = "You're not at the venue! Try checking in after you get here!"
-         puts "#{@user.lat > @user.location.lat_min}"
-         puts "#{@user.lat < @user.location.lat_max}"
-         puts "#{@user.long > @user.location.lat_min}"
-         puts "#{@user.long > @user.location.lat_max}"
-         puts "wrong loctation!"
       end
     end
   end
